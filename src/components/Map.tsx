@@ -161,6 +161,7 @@ const Map: React.FC = () => {
         description: object.description,
         details: object.details,
         radar_detections: object.radar_detections,
+        qna: object.qna || object.steps || null, // Include Q&A data
         plots: object['plots'].map((p: any) => ({
           position: p.position,
           speed: p.speed,

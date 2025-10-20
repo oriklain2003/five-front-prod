@@ -424,19 +424,20 @@ const PopupChat: React.FC<PopupChatProps> = ({ targetInfo, initialMessages = [] 
                               addMessage: addMessage,
                             });
                           } else if (button.action === 'cruise_missile_approve_and_continue') {
+                            console.log('cruise_missile_approve_and_continue');
                             // Cruise missile flow: approve classification then show action messages
                             approveClassification(targetInfo);
                             
                             // First message with timer
                             setTimeout(() => {
                               addMessage([
-                                'יש לפעול מיידית על המטרה כאשר ההחלטה לסווג אותה ככטב"ם אויב',
+                                'יש לפעול מיידית על המטרה כאשר ההחלטה לסווג זוהה ככטב"ם אויב',
                                 'כרוז צוות ליירוט',
                                 'זנק מסוקי קרב',
                                 'זנק מטוסי קרב',
                                 'העלה כוננות לסוללות הטילים',
                                 'העלה מעגל שליטה',
-                                'העלה חומסי gps',
+                                'העלה חוסמי gps',
                                 '',
                                 'עדיפיות ותכנית יירוט',
                                 '<span style="color: #4ade80; font-weight: bold;">א. סוללת טילים א\' - 95%</span>',
