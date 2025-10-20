@@ -3,6 +3,7 @@ import { ObjectInfo } from '../contexts/ChatContext';
 import { calculateETA, parseLineString } from '../utils/geoUtils';
 import { processStep } from '../utils/stepsHandler';
 import { approveClassification } from '../hooks/useWebSocket';
+import { buildApiUrl } from '../config';
 
 interface PopupChatProps {
   targetInfo: ObjectInfo;
@@ -77,7 +78,7 @@ const PopupChat: React.FC<PopupChatProps> = ({ targetInfo, initialMessages = [] 
         localStorage.setItem('downTargets', JSON.stringify(downTargets));
       }
       
-      fetch('http://localhost:3001/objects', {
+      fetch(buildApiUrl('/objects'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -138,7 +139,7 @@ const PopupChat: React.FC<PopupChatProps> = ({ targetInfo, initialMessages = [] 
         `Alt:${targetInfo.position[2]}ft`
       ].filter(Boolean).join(' | ');
 
-      const response = await fetch('http://localhost:3001/chat', {
+      const response = await fetch(buildApiUrl('/chat'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

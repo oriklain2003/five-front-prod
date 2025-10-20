@@ -3,6 +3,7 @@ import { useChat } from '../contexts/ChatContext';
 import { useMap } from '../contexts/MapContext';
 import { processStep } from '../utils/stepsHandler';
 import { approveClassification } from '../hooks/useWebSocket';
+import { buildApiUrl } from '../config';
 import { useVoiceChat } from '../hooks/useVoiceChat';
 
 const Chat: React.FC = () => {
@@ -48,7 +49,7 @@ const Chat: React.FC = () => {
       // Compute/update a rolling summary on the client side (stored only in UI)
       const clientSummary = await getClientSummary();
 
-      const response = await fetch('http://localhost:3001/chat', {
+      const response = await fetch(buildApiUrl('/chat'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

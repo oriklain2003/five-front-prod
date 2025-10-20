@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { Classification, ObjectDescription } from '../components/drawables';
+import { buildApiUrl } from '../config';
 
 export interface ChatMessage {
   message: string;
@@ -70,7 +71,7 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const recent = messages.slice(-24); // more generous window on UI
       const formatted = recent.map(m => ({ role: m.isUser ? 'user' : 'assistant', content: m.message }));
-      const resp = await fetch('http://localhost:3001/chat/summarize', {
+      const resp = await fetch(buildApiUrl('/chat/summarize'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: formatted })
@@ -165,7 +166,7 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     message += `</div>`;
 
     // Send object data to backend to set as current context
-    fetch('http://localhost:3001/chat/current-object', {
+    fetch(buildApiUrl('/chat/current-object'), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -207,7 +208,7 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const clearChat = useCallback(async () => {
     try {
       // Clear backend conversation history
-      await fetch('http://localhost:3001/chat/conversation', {
+      await fetch(buildApiUrl('/chat/conversation'), {
         method: 'DELETE',
       });
       

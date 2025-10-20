@@ -4,6 +4,7 @@ import '@maptiler/sdk/dist/maptiler-sdk.css';
 import { useMap } from '../contexts/MapContext';
 import { useChat } from '../contexts/ChatContext';
 import { useWebSocket } from '../hooks/useWebSocket';
+import { WS_URL, MAPTILER_API_KEY, buildApiUrl } from '../config';
 import { Star, Arrow, Jet, Plane, Drone, Bird, Missile, Drawable, Radar, RadarData } from './drawables';
 
 const Map: React.FC = () => {
@@ -14,7 +15,7 @@ const Map: React.FC = () => {
   const radarsRef = useRef<Radar[]>([]);
   const specialTrailAppliedRef = useRef<Set<string>>(new Set());
 
-  maptilersdk.config.apiKey = 'r7kaQpfNDVZdaVp23F1r';
+  maptilersdk.config.apiKey = MAPTILER_API_KEY;
 
   // Constants for special ב149 styling (accessible to all handlers)
   const SPECIAL_POINT_COLOR = '#7ec8ff'; // light blue for plots
@@ -316,7 +317,7 @@ const Map: React.FC = () => {
     }
   }, [map, handleAutoDelete, handleObjectClick]);
 
-  const socket = useWebSocket('http://localhost:3001', {
+  const socket = useWebSocket(WS_URL, {
     onObjectChange: handleObjectChange,
     onChatMessage: (message, sender, timestamp, buttons, objectData) => {
       // Don't prepend sender for Classification System messages
@@ -407,7 +408,7 @@ const Map: React.FC = () => {
   useEffect(() => {
     const loadRadars = async () => {
       try {
-        const response = await fetch('http://localhost:3001/objects/radars');
+        const response = await fetch(buildApiUrl('/objects/radars'));
         const radars: RadarData[] = await response.json();
         radarsRef.current = radars.map(radarData => new Radar(radarData));
       } catch (error) {

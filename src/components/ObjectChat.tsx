@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ObjectInfo } from './drawables';
+import { buildApiUrl, API_BASE_URL } from '../config';
 
 interface ObjectChatProps {
   objectData: ObjectInfo;
@@ -21,7 +22,7 @@ const ObjectChat: React.FC<ObjectChatProps> = ({ objectData, onClose, index }) =
 
   // Set the object context when the chat opens
   useEffect(() => {
-    fetch('http://localhost:3001/chat/current-object', {
+    fetch(buildApiUrl('/chat/current-object'), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ const ObjectChat: React.FC<ObjectChatProps> = ({ objectData, onClose, index }) =
           content: msg.message
         }));
 
-      const response = await fetch('http://localhost:3001/chat', {
+      const response = await fetch(buildApiUrl('/chat'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -338,6 +339,11 @@ const ObjectChat: React.FC<ObjectChatProps> = ({ objectData, onClose, index }) =
         </head>
         <body>
 
+          <script>
+            // Injected from parent app config
+            const API_BASE_URL = '${API_BASE_URL}';
+          </script>
+
           <div class="target-info">
             <div class="target-info-label">מטרה ממוקדת</div>
             <div class="target-info-content">
@@ -386,7 +392,7 @@ const ObjectChat: React.FC<ObjectChatProps> = ({ objectData, onClose, index }) =
             const conversationMessages = [];
 
             // Set object context
-            fetch('http://localhost:3001/chat/current-object', {
+            fetch(API_BASE_URL + '/chat/current-object', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(objectData)
@@ -462,7 +468,7 @@ const ObjectChat: React.FC<ObjectChatProps> = ({ objectData, onClose, index }) =
                     content: msg.message
                   }));
 
-                const response = await fetch('http://localhost:3001/chat', {
+                const response = await fetch(API_BASE_URL + '/chat', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ 

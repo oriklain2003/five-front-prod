@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useChat } from '../contexts/ChatContext';
+import { buildApiUrl } from '../config';
 
 interface VoiceChatOptions {
   voice?: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer';
@@ -77,7 +78,7 @@ export const useVoiceChat = (options: VoiceChatOptions = {}) => {
 
   const checkForSystemMessages = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/chat/system-messages');
+      const response = await fetch(buildApiUrl('/chat/system-messages'));
       const systemMessages = await response.json();
       
       if (systemMessages.length > lastSystemMessageCountRef.current) {
@@ -123,7 +124,7 @@ export const useVoiceChat = (options: VoiceChatOptions = {}) => {
 
       updateStatus('Creating session with FIVE AI...', 'connecting');
 
-      const tokenResponse = await fetch('http://localhost:3001/chat/realtime-session', {
+      const tokenResponse = await fetch(buildApiUrl('/chat/realtime-session'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -219,7 +220,7 @@ export const useVoiceChat = (options: VoiceChatOptions = {}) => {
           dataChannelRef.current?.send(JSON.stringify(qnaSystemItem));
         }
 
-        fetch('http://localhost:3001/chat/system-messages')
+        fetch(buildApiUrl('/chat/system-messages'))
           .then(res => res.json())
           .then(messages => {
             lastSystemMessageCountRef.current = messages.length;
