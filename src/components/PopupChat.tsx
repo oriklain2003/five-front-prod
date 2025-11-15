@@ -431,7 +431,7 @@ const PopupChat: React.FC<PopupChatProps> = ({ targetInfo, initialMessages = [] 
                             // First message with timer
                             setTimeout(() => {
                               addMessage([
-                                'יש לפעול מיידית על המטרה כאשר ההחלטה לסווג זוהה ככטב"ם אויב',
+                                'יש לפעול מיידית על המטרה כאשר ההחלטה לסיווג היא טיל שיוט',
                                 'כרוז צוות ליירוט',
                                 'זנק מסוקי קרב',
                                 'זנק מטוסי קרב',
